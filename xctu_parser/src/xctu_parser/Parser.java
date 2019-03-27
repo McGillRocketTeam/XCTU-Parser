@@ -4,11 +4,17 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Parser {
 
-static List<String> inputFile = new ArrayList<String>();
-static List<String> outputFile = new ArrayList<String>();
+static List<String> INPUT_FILE = new ArrayList<String>();
+static List<String> OUTPUT_FILE = new ArrayList<String>();
+
+Pattern RSSI = Pattern.compile("[0-9A-F]{6}");
+Pattern TIME_STAMP = Pattern.compile("\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2}.\\d{3}");
+Pattern SENT = Pattern.compile("SENT,[0-9A-F]{10}");
+
 	
 	public static void main(String[] args) {
 		
@@ -19,7 +25,7 @@ static List<String> outputFile = new ArrayList<String>();
 			String line;
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
 			while ((line = reader.readLine()) != null) {
-				inputFile.add(line);
+				INPUT_FILE.add(line);
 			}
 			reader.close();
 		} catch (Exception e) {
@@ -27,7 +33,7 @@ static List<String> outputFile = new ArrayList<String>();
 		}
 		
 		// Operate on the tokens.
-		for (String line : inputFile) {
+		for (String line : INPUT_FILE) {
 			
 		}
 		
