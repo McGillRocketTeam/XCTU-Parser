@@ -20,7 +20,7 @@ static List<String> OUTPUT_FILE = new ArrayList<String>();
 static String OUTPUT_FILENAME = "output.csv";
 
 // Patterns
-static Pattern TIME_RSSI = Pattern.compile("(\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2}.\\d{3}).*([0-9A-F]{2})([0-9A-F]{4})");
+static Pattern TIME_RSSI = Pattern.compile("(\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2}.\\d{3}).*([0-9A-F]{4})[0-9A-F]{2}");
 static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 
 	
@@ -55,7 +55,7 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 			if (nextIsReceived && timeRssi.find()) {
 				System.out.println("Found match.");
 				// Convert the RSSI hex value to decimal.
-				Integer rssiValue = Integer.parseInt(timeRssi.group(3), 16);
+				Integer rssiValue = Integer.parseInt(timeRssi.group(2), 16);
 				// Construct a output file line.
 				OUTPUT_FILE.add(timeRssi.group(1).replaceAll(" ", "/") + "," + rssiValue.toString());
 			}
