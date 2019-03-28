@@ -30,6 +30,12 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 		// Start the timer (for testing purposes).
 		long start = System.nanoTime();
 		
+		if (args.length == 0) {
+			System.out.println("logparser V1.0");
+			System.out.println("USAGE: logparser [input] [output]");
+			return;
+		}
+		
 		/* Scan the .TXT file and load it into the buffered reader. */
 		
 		String filename = "";
@@ -56,6 +62,9 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 		try {
 			System.out.println("Opening output file...");
 			// Create and open an file.
+			String userOutputFilename = args[1];
+			if (userOutputFilename != null)
+				OUTPUT_FILENAME = userOutputFilename;
 			PrintWriter writer = new PrintWriter(OUTPUT_FILENAME, "UTF-8");
 			// Write collumn titles
 			// writer.println("Timestamp,RSSI");
@@ -69,7 +78,7 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 			System.out.println("Output file closed.");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			System.err.println("Exception occurred trying to read the output file.");
+			System.err.println("Exception occurred trying to read the output file " + OUTPUT_FILE + ".");
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
 			System.err.println("Unsupported encoding.");
