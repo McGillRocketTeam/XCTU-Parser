@@ -4,7 +4,7 @@ Simple utility that can be used to parse raw data from XCTU into a CSV file.
 ## So what does it do?
 It's simple, it scans the file line per line. If it sees a SENT entry with 10 hexadecimal numbers (_shown in orange_), it takes the timestamp (_shown in red_) and last 4 hexadecimal digits (_shown in green_) converted to decimal of the next line and adds it to the ouput file as an entry.
 
-If the data is not complete (_i.e. 2 digits in one packet and 4 in the next one_), the parser will try to finish the message by looking at the next received message.
+If the data is not complete (_i.e. 2 digits in one packet and 4 in the next one_), the parser will try to finish it by looking at the next received message.
 
 ![alt text](https://github.com/McGillRocketTeam/XCTU-Parser/blob/master/parsing.png "Elements parsed by the parser.")
 
