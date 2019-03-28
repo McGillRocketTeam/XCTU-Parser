@@ -119,7 +119,7 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 		// Calculate elapsed time.
 		long timeElapsed = finish - start;
 		
-		System.out.println("Processing complete in " + timeElapsed + " ns.");
+		System.out.println("Process completed in " + timeElapsed + " ns.");
 		
 	}
 
