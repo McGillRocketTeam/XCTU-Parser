@@ -11,3 +11,6 @@ If the data is not complete (_i.e. 2 digits in one packet and 4 in the next one_
 ## Notes
 - It needs a filename (for the input data) parameter to run. If you run it in eclipse, you might want to specify the filename of your test data in your run configuration.
 - Don't forget to comment out the debugging print statements if you are going to parse a large file. Well, at least if you don't want to fill your console with redundant messages.
+
+## Thanks
+- **Miraj Ibrahim**: For his initial work on the parser logic and for providing detailed information on the logfiles' structure.
