@@ -72,26 +72,26 @@ public class XCTU_RSSI_Parser {
 	public static String simplifyString(String rawData) {
 		
 			//Strip out the +++
-			rawData = rawData.replaceAll("(\\d\\d-\\d\\d-\\d\\d\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d,\\d\\d\\d\\d\\d,SENT,2B2B2B)+", "");
+			rawData = rawData.replaceAll("(\\d\\d-\\d\\d-\\d\\d\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d,(\\d){4,},SENT,2B2B2B)+", "");
 				
 			//Strip out OK
-			rawData = rawData.replaceAll("(\\d\\d-\\d\\d-\\d\\d\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d,\\d\\d\\d\\d\\d,RECV,4F4B0D)+", "");
+			rawData = rawData.replaceAll("(\\d\\d-\\d\\d-\\d\\d\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d,(\\d){4,},RECV,4F4B0D)+", "");
 				
 			//Strip out other versions of OK
-			rawData = rawData.replaceAll("(\\d\\d-\\d\\d-\\d\\d\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d,\\d\\d\\d\\d\\d,RECV,4F4B)+", "");
+			rawData = rawData.replaceAll("(\\d\\d-\\d\\d-\\d\\d\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d,(\\d){4,},RECV,4F4B)+", "");
 				
-			rawData = rawData.replaceAll("(\\d\\d-\\d\\d-\\d\\d\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d,\\d\\d\\d\\d\\d,RECV,4F)+", "");
+			rawData = rawData.replaceAll("(\\d\\d-\\d\\d-\\d\\d\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d,(\\d){4,},RECV,4F)+", "");
 				
-			rawData = rawData.replaceAll("(\\d\\d-\\d\\d-\\d\\d\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d,\\d\\d\\d\\d\\d,RECV,4B)+", "");
+			rawData = rawData.replaceAll("(\\d\\d-\\d\\d-\\d\\d\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d,(\\d){4,},RECV,4B)+", "");
 				
 			//Strip out atdb
-			rawData = rawData.replaceAll("(\\d\\d-\\d\\d-\\d\\d\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d,\\d\\d\\d\\d\\d,SENT,415444420D)+", "");
+			rawData = rawData.replaceAll("(\\d\\d-\\d\\d-\\d\\d\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d,(\\d){4,},SENT,415444420D)+", "");
 				
 			//Strip out 0D at the end of RSSI value
 			rawData = rawData.replaceAll("(0D\\b)+", "");
 				
 			//Strip out the middle bits of information
-			rawData = rawData.replaceAll(".\\d\\d\\d,\\d\\d\\d\\d\\d,RECV,", " ");
+			rawData = rawData.replaceAll(".\\d\\d\\d,(\\d){4,},RECV,", " ");
 			
 			//Create separation
 			rawData = rawData.replaceAll(" ", ",");
