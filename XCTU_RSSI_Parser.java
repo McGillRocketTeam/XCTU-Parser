@@ -9,7 +9,7 @@ public class XCTU_RSSI_Parser {
 	public static void main(String[] args) {
 		String in_file = (args[0]);
 		String path = Paths.get(in_file).getParent().toString();
-		String out_file = (new StringBuilder()).append(path).append("/").append("decodedRSSIValues.txt").toString();
+		String out_file = (new StringBuilder()).append(path).append("/").append("decodedRSSIValues.csv").toString();
 		String rawData = readFileAsString(in_file);
 		
 		StringBuilder sb = new StringBuilder();
