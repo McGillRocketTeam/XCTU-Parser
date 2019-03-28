@@ -8,3 +8,4 @@ It's simple, it scans the file line per line. If it sees a SENT entry with 10 he
 
 ## Notes
 - It needs a filename (for the input data) parameter to run. If you run it in eclipse, you might want to specify the filename of your test data in your run configuration.
+- Don't forget to comment out the debugging print statements if you are going to parse a large file. Well, at least if you don't want to fill your console with redundant messages.
