@@ -20,7 +20,7 @@ static List<String> OUTPUT_FILE = new ArrayList<String>();
 static String OUTPUT_FILENAME = "output.csv";
 
 // Patterns
-static Pattern TIME_RSSI = Pattern.compile("(\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2}.\\d{3}).*([0-9A-F]{4})[0-9A-F]{2}");
+static Pattern TIME_RSSI = Pattern.compile("(\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2}.\\d{3}).{11}([0-9A-F]{4}|[0-9A-F]{2})([0-9A-F]{2})?");
 static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 
 	
@@ -46,18 +46,37 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 		/* Operate on the tokens. */
 		
 		boolean nextIsReceived = false;
+		boolean runonValue = false;
+		String tempRssi = "";
 		System.out.println("Building output array...");
 		for (String line : INPUT_FILE) {
 			// Create the matchers
 			Matcher sent = SENT.matcher(line);
 			Matcher timeRssi = TIME_RSSI.matcher(line);
 			// If current token is wanted, extract information and add to the output file.
-			if (nextIsReceived && timeRssi.find()) {
-				System.out.println("Found match.");
-				// Convert the RSSI hex value to decimal.
-				Integer rssiValue = Integer.parseInt(timeRssi.group(2), 16);
-				// Construct a output file line.
-				OUTPUT_FILE.add(timeRssi.group(1).replaceAll(" ", "/") + "," + rssiValue.toString());
+			if (nextIsReceived) {
+				if (timeRssi.find()) {
+					System.out.println("Found match.");
+					// Check whether it is a length 2 or 4 string.
+					String rssiString = timeRssi.group(2);
+					if (rssiString.length() == 2 && !runonValue) {
+						// If the found string is a partial string, set runon to true and continue the loop.
+						tempRssi = rssiString;
+						runonValue = true;
+						System.out.println("Partial value, continuing scan...");
+						continue;
+					}
+					if (runonValue) {
+						// If it is a runon value, add the two first characters of the new RSSI.
+						rssiString = tempRssi + rssiString.substring(0, 2);
+						runonValue = false;
+					}
+					System.out.println("Match is: " + rssiString);
+					// Convert the RSSI hex value to decimal.
+					Integer rssiValue = Integer.parseInt(rssiString, 16);
+					// Construct a output file line.
+					OUTPUT_FILE.add(timeRssi.group(1).replaceAll(" ", "/") + "," + rssiValue.toString());
+				}
 			}
 			// Verify if the current token is the desired marker.
 			nextIsReceived = sent.matches();
