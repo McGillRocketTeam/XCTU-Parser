@@ -7,6 +7,9 @@ if [[ $1 == "-h" ]]; then
 fi
 
 DIR=$1
+
+javac XCTU_RSSI_Parser.java
+
 for file in $(find $DIR/ -maxdepth 2 -iname '*.log.txt')
 do
 	echo $file
