@@ -62,9 +62,8 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 		try {
 			System.out.println("Opening output file...");
 			// Create and open an file.
-			String userOutputFilename = args[1];
-			if (userOutputFilename != null)
-				OUTPUT_FILENAME = userOutputFilename;
+			if (args.length >= 2)
+				OUTPUT_FILENAME = args[1];
 			PrintWriter writer = new PrintWriter(OUTPUT_FILENAME, "UTF-8");
 			// Write collumn titles
 			// writer.println("Timestamp,RSSI");
