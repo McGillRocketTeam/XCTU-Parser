@@ -30,6 +30,7 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 		// Start the timer (for testing purposes).
 		long start = System.nanoTime();
 		
+		// Show usage if no arguments is passed.
 		if (args.length == 0) {
 			System.out.println("logparser V1.0");
 			System.out.println("USAGE: logparser [input] [output]");
