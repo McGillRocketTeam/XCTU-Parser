@@ -28,7 +28,7 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 	public static void main(String[] args) {
 		
 		// Start the timer (for testing purposes).
-		long start = System.nanoTime();
+		// long start = System.nanoTime();
 		
 		/* Scan the .TXT file and load it into the buffered reader. */
 		
@@ -36,13 +36,13 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 		try {
 			filename = args[0];
 			String line;
-			System.out.println("Opening data file...");
+			// System.out.println("Opening data file...");
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
 			while ((line = reader.readLine()) != null) {
 				INPUT_FILE.add(line);
 			}
 			reader.close();
-			System.out.println("Closed data file.");
+			// System.out.println("Closed data file.");
 		} catch (Exception e) {
 			System.err.format("Exception occurred trying to read '%s'.", filename);
 		}
@@ -52,7 +52,7 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 		boolean nextIsReceived = false;
 		boolean runonValue = false;
 		String tempRssi = "";
-		System.out.println("Building output array...");
+		// System.out.println("Building output array...");
 		for (String line : INPUT_FILE) {
 			// Create the matchers
 			Matcher sent = SENT.matcher(line);
@@ -60,14 +60,14 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 			// If current token is wanted, extract information and add to the output file.
 			if (nextIsReceived) {
 				if (timeRssi.find()) {
-					System.out.println("Found match.");
+					// System.out.println("Found match.");
 					// Check whether it is a length 2 or 4 string.
 					String rssiString = timeRssi.group(2);
 					if (rssiString.length() == 2 && !runonValue) {
 						// If the found string is a partial string, set runon to true and continue the loop.
 						tempRssi = rssiString;
 						runonValue = true;
-						System.out.println("Partial value, continuing scan...");
+						// System.out.println("Partial value, continuing scan...");
 						continue;
 					}
 					if (runonValue) {
@@ -75,7 +75,7 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 						rssiString = tempRssi + rssiString.substring(0, 2);
 						runonValue = false;
 					}
-					System.out.println("Match is: " + rssiString);
+					// System.out.println("Match is: " + rssiString);
 					// Convert the RSSI hex value to decimal.
 					Integer rssiValue = Integer.parseInt(rssiString, 16);
 					// Construct a output file line.
@@ -85,24 +85,24 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 			// Verify if the current token is the desired marker.
 			nextIsReceived = sent.matches();
 		}
-		System.out.println("Output array built.");
+		// System.out.println("Output array built.");
 		
 		/* Append the resulting strings to a .CSV file */
 		
 		try {
-			System.out.println("Opening output file...");
+			// System.out.println("Opening output file...");
 			// Create and open an file.
 			PrintWriter writer = new PrintWriter(OUTPUT_FILENAME, "UTF-8");
 			// Write collumn titles
 			// writer.println("Timestamp,RSSI");
 			// Append the results to the end of the file.
 			for (String line : OUTPUT_FILE) {
-				System.out.println(line);
+				// System.out.println(line);
 				writer.println(line);
 			}
 			// Close the file.
 			writer.close();
-			System.out.println("Output file closed.");
+			// System.out.println("Output file closed.");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.err.println("Exception occurred trying to read the output file.");
@@ -114,12 +114,12 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 		}
 		
 		// Stop timer (for testing purposes).
-		long finish = System.nanoTime();
+		// long finish = System.nanoTime();
 		
 		// Calculate elapsed time.
-		long timeElapsed = finish - start;
+		// long timeElapsed = finish - start;
 		
-		System.out.println("Process completed in " + timeElapsed + " ns.");
+		// System.out.println("Process completed in " + timeElapsed + " ns.");
 		
 	}
 
