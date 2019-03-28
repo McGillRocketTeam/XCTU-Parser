@@ -49,43 +49,7 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 		
 		/* Operate on the tokens. */
 		
-		boolean nextIsReceived = false;
-		boolean runonValue = false;
-		String tempRssi = "";
-		System.out.println("Building output array...");
-		for (String line : INPUT_FILE) {
-			// Create the matchers
-			Matcher sent = SENT.matcher(line);
-			Matcher timeRssi = TIME_RSSI.matcher(line);
-			// If current token is wanted, extract information and add to the output file.
-			if (nextIsReceived) {
-				if (timeRssi.find()) {
-					System.out.println("Found match.");
-					// Check whether it is a length 2 or 4 string.
-					String rssiString = timeRssi.group(2);
-					if (rssiString.length() == 2 && !runonValue) {
-						// If the found string is a partial string, set runon to true and continue the loop.
-						tempRssi = rssiString;
-						runonValue = true;
-						System.out.println("Partial value, continuing scan...");
-						continue;
-					}
-					if (runonValue) {
-						// If it is a runon value, add the two first characters of the new RSSI.
-						rssiString = tempRssi + rssiString.substring(0, 2);
-						runonValue = false;
-					}
-					System.out.println("Match is: " + rssiString);
-					// Convert the RSSI hex value to decimal.
-					Integer rssiValue = Integer.parseInt(rssiString, 16);
-					// Construct a output file line.
-					OUTPUT_FILE.add(timeRssi.group(1).replaceAll(" ", ",") + "," + rssiValue.toString());
-				}
-			}
-			// Verify if the current token is the desired marker.
-			nextIsReceived = sent.matches();
-		}
-		System.out.println("Output array built.");
+		OUTPUT_FILE = parseLog(INPUT_FILE);
 		
 		/* Append the resulting strings to a .CSV file */
 		
@@ -121,6 +85,51 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 		
 		System.out.println("Process completed in " + timeElapsed + " ns.");
 		
+	}
+	
+	private static List<String> parseLog(List<String> input) {
+		// Create the output array.
+		List<String> output = new ArrayList<String>();
+		// Variable needed for parsing
+		boolean nextIsReceived = false;
+		boolean runonValue = false;
+		String tempRssi = "";
+		System.out.println("Building output array...");
+		// Parsing loop.
+		for (String line : input) {
+			// Create the matchers.
+			Matcher sent = SENT.matcher(line);
+			Matcher timeRssi = TIME_RSSI.matcher(line);
+			// If current token is wanted, extract information and add to the output file.
+			if (nextIsReceived) {
+				if (sent.matches()) continue; // Ignore the next line if it is a sent packet.
+				if (timeRssi.find()) {
+					System.out.println("Found match.");
+					// Check whether it is a length 2 or 4 string.
+					String rssiString = timeRssi.group(2);
+					if (rssiString.length() == 2 && !runonValue) {
+						// If the found string is a partial string, set runon to true and continue the loop.
+						tempRssi = rssiString;
+						runonValue = true;
+						System.out.println("Partial value, continuing scan...");
+						continue;
+					}
+					if (runonValue) {
+						// If it is a runon value, add the two first characters of the new RSSI.
+						rssiString = tempRssi + rssiString.substring(0, 2);
+						runonValue = false;
+					}
+					System.out.println("Match is: " + rssiString);
+					// Convert the RSSI hex value to decimal.
+					Integer rssiValue = Integer.parseInt(rssiString, 16);
+					// Construct a output file line.
+					output.add(timeRssi.group(1).replaceAll(" ", ",") + "," + rssiValue.toString());
+				}
+			}
+			// Verify if the current token is the desired marker.
+			nextIsReceived = sent.matches();
+		}
+		return output;
 	}
 
 }
