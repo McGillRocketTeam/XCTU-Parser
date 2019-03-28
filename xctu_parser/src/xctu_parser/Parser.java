@@ -20,11 +20,15 @@ static List<String> OUTPUT_FILE = new ArrayList<String>();
 static String OUTPUT_FILENAME = "output.csv";
 
 // Patterns
-static Pattern TIME_RSSI = Pattern.compile("(\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2}.\\d{3}).{11}([0-9A-F]{4}|[0-9A-F]{2})([0-9A-F]{2})?");
+// static Pattern TIME_RSSI = Pattern.compile("(\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2}.\\d{3}).{11}([0-9A-F]{4}|[0-9A-F]{2})([0-9A-F]{2})?"); // Pattern with seconds decimals
+static Pattern TIME_RSSI = Pattern.compile("(\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2}).{15}([0-9A-F]{4}|[0-9A-F]{2})([0-9A-F]{2})?"); // Pattern without seconds decimals
 static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 
 	
 	public static void main(String[] args) {
+		
+		// Start the timer (for testing purposes).
+		long start = System.nanoTime();
 		
 		/* Scan the .TXT file and load it into the buffered reader. */
 		
@@ -108,8 +112,15 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Processing complete.");
-
+		
+		// Stop timer (for testing purposes).
+		long finish = System.nanoTime();
+		
+		// Calculate elapsed time.
+		long timeElapsed = finish - start;
+		
+		System.out.println("Processing complete in " + timeElapsed + " ns.");
+		
 	}
 
 }
