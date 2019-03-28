@@ -79,7 +79,7 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 					// Convert the RSSI hex value to decimal.
 					Integer rssiValue = Integer.parseInt(rssiString, 16);
 					// Construct a output file line.
-					OUTPUT_FILE.add(timeRssi.group(1).replaceAll(" ", "/") + "," + rssiValue.toString());
+					OUTPUT_FILE.add(timeRssi.group(1).replaceAll(" ", ",") + "," + rssiValue.toString());
 				}
 			}
 			// Verify if the current token is the desired marker.
@@ -94,7 +94,7 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 			// Create and open an file.
 			PrintWriter writer = new PrintWriter(OUTPUT_FILENAME, "UTF-8");
 			// Write collumn titles
-			writer.println("Timestamp,RSSI");
+			// writer.println("Timestamp,RSSI");
 			// Append the results to the end of the file.
 			for (String line : OUTPUT_FILE) {
 				System.out.println(line);
