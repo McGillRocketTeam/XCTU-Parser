@@ -77,7 +77,7 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 					}
 					// System.out.println("Match is: " + rssiString);
 					// Convert the RSSI hex value to decimal.
-					Integer rssiValue = Integer.parseInt(rssiString, 16);
+					Integer rssiValue = Integer.parseInt(hexToAscii(rssiString), 16);
 					// Construct a output file line.
 					OUTPUT_FILE.add(timeRssi.group(1).replaceAll(" ", ",") + "," + rssiValue.toString());
 				}
@@ -121,6 +121,17 @@ static Pattern SENT = Pattern.compile(".*SENT,[0-9A-F]{10}");
 		
 		// System.out.println("Process completed in " + timeElapsed + " ns.");
 		
+	}
+
+		private static String hexToAscii(String hexStr) {
+	    StringBuilder output = new StringBuilder("");
+	     
+	    for (int i = 0; i < hexStr.length(); i += 2) {
+	        String str = hexStr.substring(i, i + 2);
+	        output.append((char) Integer.parseInt(str, 16));
+	    }
+	     
+	    return "-"+output.toString();
 	}
 
 }
